@@ -5,7 +5,7 @@ import {
   logInWithEmailAndPassword,
   signInWithGoogle,
 } from "../../firebase";
-import "./login.scss";
+import "./Login.scss";
 import { Link, useNavigate } from "react-router-dom";
 
 function SignInScreen() {
