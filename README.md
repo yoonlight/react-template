@@ -11,3 +11,7 @@
 | typescript   | 4.6.4   |
 | Fontawesome  | 6.2.1   |
 | Fullcalendar | 5.11.3  |
+
+## Reference
+
+- <https://blog.logrocket.com/user-authentication-firebase-react-apps/>
