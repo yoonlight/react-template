@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import "./index.css";
@@ -14,7 +14,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <Suspense>
+          <RouterProvider router={router} />
+        </Suspense>
       </QueryClientProvider>
     </Provider>
   </React.StrictMode>
