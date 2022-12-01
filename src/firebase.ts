@@ -9,14 +9,8 @@ import {
   sendPasswordResetEmail,
   sendEmailVerification,
 } from "firebase/auth";
-import {
-  addDoc,
-  collection,
-  getDocs,
-  getFirestore,
-  query,
-  where,
-} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { authAPI } from "./api/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FB_API_KEY,
@@ -35,18 +29,20 @@ export const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 export const signInWithGoogle = async () => {
   try {
-    const res = await signInWithPopup(auth, googleProvider);
-    const user = res.user;
-    const q = query(collection(db, "users"), where("uid", "==", user.uid));
-    const docs = await getDocs(q);
-    if (docs.docs.length === 0) {
-      await addDoc(collection(db, "users"), {
+    const userCredential = await signInWithPopup(auth, googleProvider);
+    const user = userCredential.user;
+    const isRegisteredRes = await authAPI.checkRegistered(user.uid);
+    if (!isRegisteredRes.data && user.displayName && user.email) {
+      await authAPI.register({
         uid: user.uid,
         name: user.displayName,
         authProvider: "google",
         email: user.email,
       });
     }
+    const token = await user.getIdToken();
+    const res = await authAPI.login({ token });
+    return res.data.accessToken;
   } catch (err) {
     console.error(err);
     if (err instanceof Error) alert(err.message);
@@ -58,7 +54,14 @@ export const logInWithEmailAndPassword = async (
   password: string
 ) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const token = await userCredential.user.getIdToken();
+    const res = await authAPI.login({ token });
+    return res.data.accessToken;
   } catch (err) {
     console.error(err);
     if (err instanceof Error) alert(err.message);
@@ -71,9 +74,13 @@ export const registerWithEmailAndPassword = async (
   password: string
 ) => {
   try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    const user = res.user;
-    await addDoc(collection(db, "users"), {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+    await authAPI.register({
       uid: user.uid,
       name,
       authProvider: "local",
