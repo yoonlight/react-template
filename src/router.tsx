@@ -5,6 +5,7 @@ const App = lazy(() => import("./App"));
 const Login = lazy(() => import("./pages/auth/Login"));
 const Reset = lazy(() => import("./pages/auth/Reset"));
 const Register = lazy(() => import("./pages/auth/Register"));
+const Email = lazy(() => import("./pages/auth/Email"));
 
 export const router = createBrowserRouter([
   {
@@ -23,5 +24,9 @@ export const router = createBrowserRouter([
   {
     path: "reset",
     element: <Reset />,
+  },
+  {
+    path: "email",
+    element: <Email />,
   },
 ]);
