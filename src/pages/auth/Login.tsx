@@ -18,13 +18,14 @@ function SignInScreen() {
       // maybe trigger a loading screen
       return;
     }
-    if (user) navigate("/");
+    if (user?.emailVerified) navigate("/");
+    if (user) navigate("/email");
   }, [user, loading]);
   return (
     <div className="login">
       <div className="login__container">
         <input
-          type="text"
+          type="email"
           className="login__textBox"
           value={email}
           onChange={(e) => setEmail(e.target.value)}

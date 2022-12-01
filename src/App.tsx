@@ -23,6 +23,7 @@ function App() {
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate("/login");
+    if (!user.emailVerified) return navigate("/email");
     fetchUserName();
   }, [user, loading]);
   return (
