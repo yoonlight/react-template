@@ -30,7 +30,8 @@
     "react-query": "^3.39.2",
     "react-redux": "^8.0.5",
     "react-responsive": "^9.0.0",
-    "react-router-dom": "^6.4.3"
+    "react-router-dom": "^6.4.3",
+    "recoil": "^0.7.6"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
