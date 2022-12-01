@@ -5,19 +5,18 @@ import "./index.css";
 import { router } from "./router";
 import "css-wipe";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { store } from "./store";
-import { Provider } from "react-redux";
+import { RecoilRoot } from "recoil";
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <Provider store={store}>
+    <RecoilRoot>
       <QueryClientProvider client={queryClient}>
         <Suspense>
           <RouterProvider router={router} />
         </Suspense>
       </QueryClientProvider>
-    </Provider>
+    </RecoilRoot>
   </React.StrictMode>
 );

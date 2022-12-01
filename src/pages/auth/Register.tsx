@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  auth,
-  registerWithEmailAndPassword,
-  signInWithGoogle,
-} from "../../firebase";
+import { auth, useAuthActions } from "../../features/auth/auth.action";
 import "./Register.scss";
 function Register() {
   const [email, setEmail] = useState("");
@@ -13,9 +9,10 @@ function Register() {
   const [name, setName] = useState("");
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
+  const authActions = useAuthActions();
   const register = () => {
     if (!name) alert("Please enter name");
-    registerWithEmailAndPassword(name, email, password);
+    authActions.registerWithEmailAndPassword(name, email, password);
   };
   useEffect(() => {
     if (loading) return;
@@ -50,7 +47,7 @@ function Register() {
         </button>
         <button
           className="register__btn register__google"
-          onClick={signInWithGoogle}
+          onClick={authActions.signInWithGoogle}
         >
           Register with Google
         </button>
