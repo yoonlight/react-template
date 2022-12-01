@@ -10,7 +10,10 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { authAPI } from "./api/auth";
+import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { useAuthAPI } from "./features/auth/auth.api";
+import { authState } from "./features/auth/auth.state";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FB_API_KEY,
@@ -23,95 +26,3 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-
-const googleProvider = new GoogleAuthProvider();
-export const signInWithGoogle = async () => {
-  try {
-    const userCredential = await signInWithPopup(auth, googleProvider);
-    const user = userCredential.user;
-    const isRegisteredRes = await authAPI.checkRegistered(user.uid);
-    if (!isRegisteredRes.data && user.displayName && user.email) {
-      await authAPI.register({
-        uid: user.uid,
-        name: user.displayName,
-        authProvider: "google",
-        email: user.email,
-      });
-    }
-    const token = await user.getIdToken();
-    const res = await authAPI.login({ token });
-    return res.data.accessToken;
-  } catch (err) {
-    console.error(err);
-    if (err instanceof Error) alert(err.message);
-  }
-};
-
-export const logInWithEmailAndPassword = async (
-  email: string,
-  password: string
-) => {
-  try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const token = await userCredential.user.getIdToken();
-    const res = await authAPI.login({ token });
-    return res.data.accessToken;
-  } catch (err) {
-    console.error(err);
-    if (err instanceof Error) alert(err.message);
-  }
-};
-
-export const registerWithEmailAndPassword = async (
-  name: string,
-  email: string,
-  password: string
-) => {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
-    await authAPI.register({
-      uid: user.uid,
-      name,
-      authProvider: "local",
-      email,
-    });
-  } catch (err) {
-    console.error(err);
-    if (err instanceof Error) alert(err.message);
-  }
-};
-
-export const sendEmailVerificationLink = async () => {
-  const user = auth.currentUser;
-  if (user) {
-    await sendEmailVerification(user);
-    alert("Email Verification Sent!");
-  } else {
-    alert("로그인 된 경우에 접속가능한 페이지입니다.");
-  }
-};
-
-export const sendPasswordReset = async (email: string) => {
-  try {
-    await sendPasswordResetEmail(auth, email);
-    alert("Password reset link sent!");
-  } catch (err) {
-    console.error(err);
-    if (err instanceof Error) alert(err.message);
-  }
-};
-
-export const logout = () => {
-  signOut(auth);
-};
