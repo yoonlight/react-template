@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import {
-  auth,
-  logInWithEmailAndPassword,
-  signInWithGoogle,
-} from "../../firebase";
+import { useAuthActions } from "../../features/auth/auth.action";
 import "./Login.scss";
 import { Link, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { authState } from "../../features/auth/auth.state";
 
 function SignInScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, loading, error] = useAuthState(auth);
+  const authActions = useAuthActions();
+  const [auth, setAuth] = useRecoilState(authState);
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (loading) {
-      // maybe trigger a loading screen
-      return;
-    }
-    if (user?.emailVerified) navigate("/");
-    if (user) navigate("/email");
-  }, [user, loading]);
+    if (auth) navigate("/");
+  }, [auth]);
   return (
     <div className="login">
       <div className="login__container">
@@ -40,11 +34,14 @@ function SignInScreen() {
         />
         <button
           className="login__btn"
-          onClick={() => logInWithEmailAndPassword(email, password)}
+          onClick={() => authActions.logInWithEmailAndPassword(email, password)}
         >
           Login
         </button>
-        <button className="login__btn login__google" onClick={signInWithGoogle}>
+        <button
+          className="login__btn login__google"
+          onClick={authActions.signInWithGoogle}
+        >
           Login with Google
         </button>
         <div>
