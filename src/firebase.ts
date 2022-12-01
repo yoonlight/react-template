@@ -7,6 +7,7 @@ import {
   signInWithPopup,
   signOut,
   sendPasswordResetEmail,
+  sendEmailVerification,
 } from "firebase/auth";
 import {
   addDoc,
@@ -81,6 +82,16 @@ export const registerWithEmailAndPassword = async (
   } catch (err) {
     console.error(err);
     if (err instanceof Error) alert(err.message);
+  }
+};
+
+export const sendEmailVerificationLink = async () => {
+  const user = auth.currentUser;
+  if (user) {
+    await sendEmailVerification(user);
+    alert("Email Verification Sent!");
+  } else {
+    alert("로그인 된 경우에 접속가능한 페이지입니다.");
   }
 };
 
