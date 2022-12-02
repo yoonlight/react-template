@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import "./App.css";
+import "./App.scss";
 import { useAuthActions } from "./features/auth/auth.action";
 import { authState } from "./features/auth/auth.state";
 import { useGetUserProfile } from "./features/user/user.action";

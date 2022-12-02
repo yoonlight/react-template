@@ -1,0 +1,18 @@
+.auth__btn {
+  padding: 10px;
+  font-size: 0.875rem;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  background-color: #6524ff;
+}
+
+.auth__btn-google {
+  background-color: #4285f4;
+}
+
+.auth__btn-kakao {
+  background-color: #fee500;
+  color: rgba($color: #000, $alpha: 85%);
+}
