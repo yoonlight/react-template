@@ -1,8 +1,19 @@
 @import "https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap";
 @import "pages/auth";
+@import "components/header/";
 
 :root {
   font-family: "Noto Sans KR", sans-serif;
+
+  /* Layout */
+  --layout-horizontal-padding: 16px;
+  --layout-max-width: 1232px;
+
+  /* Header */
+  --header-title: 1.125rem;
+  --header-height: 64px;
+  --header-icon-size: 24px;
+  --header-background-color: white;
 }
 
 .container {

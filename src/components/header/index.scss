@@ -1,0 +1,28 @@
+.header {
+  margin: 0 auto;
+  max-width: var(--layout-max-width);
+  width: 100%;
+  height: var(--header-height);
+  background-color: var(--header-background-color);
+}
+
+.header__inner {
+  width: 100%;
+  height: 100%;
+  padding-left: var(--layout-horizontal-padding);
+  padding-right: var(--layout-horizontal-padding);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__icon {
+  font-size: var(--header-icon-size);
+  color: black;
+}
+
+.header__title {
+  font-size: var(--header-title);
+  text-decoration: none;
+  color: black;
+}
