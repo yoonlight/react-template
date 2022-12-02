@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import "./index.css";
+import "./index.scss";
 import { router } from "./router";
 import "css-wipe";
 import { QueryClient, QueryClientProvider } from "react-query";

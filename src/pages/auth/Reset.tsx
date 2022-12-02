@@ -3,7 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { auth, useAuthActions } from "../../features/auth/auth.action";
-import "./Reset.scss";
+
 function Reset() {
   const [email, setEmail] = useState("");
   const [user, loading, error] = useAuthState(auth);
@@ -14,23 +14,23 @@ function Reset() {
     if (user) navigate("/");
   }, [user, loading]);
   return (
-    <div className="reset">
-      <div className="reset__container">
+    <div className="auth">
+      <div className="container">
         <input
           type="email"
-          className="reset__textBox"
+          className="auth__input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="E-mail Address"
+          placeholder="이메일 주소 입력"
         />
         <button
-          className="reset__btn"
+          className="auth__btn"
           onClick={() => authActions.sendPasswordReset(email)}
         >
-          Send password reset email
+          이메일 전송
         </button>
-        <div>
-          Don't have an account? <Link to="/register">Register</Link> now.
+        <div className="auth__link">
+          <Link to="/register">회원가입</Link>
         </div>
       </div>
     </div>

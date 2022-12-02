@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, useAuthActions } from "../../features/auth/auth.action";
-import "./Register.scss";
+
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,40 +19,40 @@ function Register() {
     if (user) navigate("/");
   }, [user, loading]);
   return (
-    <div className="register">
-      <div className="register__container">
+    <div className="auth">
+      <div className="container">
         <input
           type="text"
-          className="register__textBox"
+          className="auth__input"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Full Name"
+          placeholder="이름을 입력해주세요."
         />
         <input
-          type="text"
-          className="register__textBox"
+          type="email"
+          className="auth__input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="E-mail Address"
+          placeholder="example@example.com"
         />
         <input
           type="password"
-          className="register__textBox"
+          className="auth__input"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
+          placeholder="8자 이상, 영문, 숫자, 특수문자"
         />
-        <button className="register__btn" onClick={register}>
-          Register
+        <button className="auth__btn" onClick={register}>
+          회원가입
         </button>
         <button
-          className="register__btn register__google"
+          className="auth__btn auth__btn-google"
           onClick={authActions.signInWithGoogle}
         >
-          Register with Google
+          구글로 시작
         </button>
-        <div>
-          Already have an account? <Link to="/">Login</Link> now.
+        <div className="auth__link">
+          <Link to="/">로그인</Link>
         </div>
       </div>
     </div>
