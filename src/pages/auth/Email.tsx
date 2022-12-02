@@ -9,10 +9,10 @@ function Email() {
   const authActions = useAuthActions();
 
   useEffect(() => {
-    if (user?.emailVerified) return navigate("/");
+    if (user?.emailVerified) navigate("/");
   }, [user]);
 
-  if (!user) return navigate("/");
+  if (!user) navigate("/");
 
   return (
     <div className="auth">
