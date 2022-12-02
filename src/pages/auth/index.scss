@@ -1,0 +1,14 @@
+@import "./input";
+@import "./button";
+
+.auth {
+  max-width: 425px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__link {
+    margin-top: 7px;
+  }
+}
