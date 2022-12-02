@@ -114,6 +114,16 @@ export const useAuthActions = () => {
     });
   };
 
+  const loginWithKakao = async (token: string) => {
+    try {
+      const res = await api.loginKakao({ token });
+      localStorage.setItem("accessToken", res.data.accessToken);
+      setAuth(res.data.accessToken);
+    } catch (error) {
+      if (error instanceof Error) alert(error.message);
+    }
+  };
+
   return {
     signInWithGoogle,
     logInWithEmailAndPassword,
@@ -121,5 +131,6 @@ export const useAuthActions = () => {
     sendEmailVerificationLink,
     sendPasswordReset,
     logout,
+    loginWithKakao,
   };
 };

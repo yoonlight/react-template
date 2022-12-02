@@ -16,3 +16,21 @@
   background-color: #fee500;
   color: rgba($color: #000, $alpha: 85%);
 }
+
+.auth__btn-icon {
+  position: relative;
+}
+
+.auth__icon {
+  position: absolute;
+  left: 0.83em; // [ ]:정확한 기준 찾아야함
+  width: 1.125rem;
+  height: auto;
+  margin-left: 8px;
+  margin-right: 8px;
+
+  svg {
+    width: 100%;
+    height: auto;
+  }
+}

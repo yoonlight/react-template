@@ -1,7 +1,11 @@
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import KakaoLogin from "react-kakao-login";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, useAuthActions } from "../../features/auth/auth.action";
+import { ReactComponent as KakaoSvg } from "../../assets/kakao-svgrepo-com.svg";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -10,6 +14,8 @@ function Register() {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const authActions = useAuthActions();
+  const token = import.meta.env.VITE_KAKAO_KEY;
+
   const register = () => {
     if (!name) alert("Please enter name");
     authActions.registerWithEmailAndPassword(name, email, password);
@@ -46,11 +52,35 @@ function Register() {
           회원가입
         </button>
         <button
-          className="auth__btn auth__btn-google"
+          className="auth__btn auth__btn-google auth__btn-icon"
           onClick={authActions.signInWithGoogle}
         >
+          <div className="auth__icon">
+            <FontAwesomeIcon icon={faGoogle} />
+          </div>
           구글로 시작
         </button>
+        <KakaoLogin
+          token={token}
+          onSuccess={(res) => {
+            authActions.loginWithKakao(res.response.access_token);
+          }}
+          onFail={console.error}
+          onLogout={console.info}
+          render={({ onClick }) => {
+            return (
+              <button
+                className="auth__btn auth__btn-kakao auth__btn-icon"
+                onClick={onClick}
+              >
+                <div className="auth__icon">
+                  <KakaoSvg />
+                </div>
+                카카오로 시작
+              </button>
+            );
+          }}
+        />
         <div className="auth__link">
           <Link to="/">로그인</Link>
         </div>

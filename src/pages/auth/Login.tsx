@@ -3,13 +3,18 @@ import { useAuthActions } from "../../features/auth/auth.action";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { authState } from "../../features/auth/auth.state";
-
+import KakaoLogin from "react-kakao-login";
+import { ReactComponent as KakaoSvg } from "../../assets/kakao-svgrepo-com.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 function SignInScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const authActions = useAuthActions();
   const [auth, setAuth] = useRecoilState(authState);
   const navigate = useNavigate();
+  // [ ]: token 한번에 처리할 수 있도록
+  const token = import.meta.env.VITE_KAKAO_KEY;
 
   useEffect(() => {
     if (auth) navigate("/");
@@ -38,11 +43,35 @@ function SignInScreen() {
           이메일 로그인
         </button>
         <button
-          className="auth__btn auth__btn-google"
+          className="auth__btn auth__btn-google auth__btn-icon"
           onClick={authActions.signInWithGoogle}
         >
+          <div className="auth__icon">
+            <FontAwesomeIcon icon={faGoogle} />
+          </div>
           구글 로그인
         </button>
+        <KakaoLogin
+          token={token}
+          onSuccess={(res) => {
+            authActions.loginWithKakao(res.response.access_token);
+          }}
+          onFail={console.error}
+          onLogout={console.info}
+          render={({ onClick }) => {
+            return (
+              <button
+                className="auth__btn auth__btn-kakao auth__btn-icon"
+                onClick={onClick}
+              >
+                <div className="auth__icon">
+                  <KakaoSvg />
+                </div>
+                카카오 로그인
+              </button>
+            );
+          }}
+        />
         <div className="auth__link">
           <Link to="/reset">비밀번호 찾기</Link>
         </div>
